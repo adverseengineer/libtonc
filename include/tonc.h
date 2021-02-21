@@ -30,6 +30,7 @@ extern "C" {
 #include "tonc_surface.h"
 
 #include "tonc_nocash.h"
+#include "tonc_mgba.h" //2-21-2021, Nick Sells
 
 // For old times' sake
 #include "tonc_text.h"
