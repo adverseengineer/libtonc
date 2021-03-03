@@ -32,7 +32,7 @@ void mgba_printf(const u32 level, const char* fmt, ...) {
 	va_start(args, fmt);
 
 	char buf[LOG_MAX_CHARS_PER_LINE];
-	vsprintf(buf, fmt, args);
+	vsnprintf(buf, LOG_MAX_CHARS_PER_LINE, fmt, args);
 	mgba_log(level, buf);
 
 	va_end(args);
