@@ -114,7 +114,7 @@
 	   <li>u#/u{type} : unsigned #-bit integer.</li>
 	   <li>e{type} : enum'ed #-bit integer.</li>
 
-	</ul> 
+	</ul>
 */
 //\{
 typedef unsigned int   uint, eint;
@@ -147,7 +147,7 @@ typedef volatile s64 vs64;
 //\}
 
 /*! \name Const types
-*	Const types for const function aprameters
+*	Const types for const function parameters
 */
 //\{
 typedef const u8  cu8;
@@ -289,7 +289,7 @@ typedef struct DMA_REC
 //! Timer struct, range: 0400:0100 - 0400:010F
 /*! \note The attribute is required, because union's counted as u32 otherwise.
 */
-typedef struct TMR_REC 
+typedef struct TMR_REC
 {
 	union { u16 start, count; } PACKED;
 	u16 cnt;
@@ -298,17 +298,17 @@ typedef struct TMR_REC
 //\}
 
 
-//! \name PAL types 
+//! \name PAL types
 //\{
 
-//! Palette bank type, for 16-color palette banks 
+//! Palette bank type, for 16-color palette banks
 typedef COLOR PALBANK[16];
 
 //\}
 
 
 /*! \name VRAM array types
-*	These types allow VRAM access as arrays or matrices in their 
+*	These types allow VRAM access as arrays or matrices in their
 *	  most natural types.
 */
 //\{
@@ -317,7 +317,7 @@ typedef SCR_ENTRY	SCREENMAT[32][32];
 typedef SCR_ENTRY	SCREENBLOCK[1024];
 
 typedef COLOR		M3LINE[240];
-typedef u8			M4LINE[240];	// NOTE: u8, not u16!!
+typedef u8		M4LINE[240];	// NOTE: u8, not u16!!
 typedef COLOR		M5LINE[160];
 
 typedef TILE		CHARBLOCK[512];
@@ -363,7 +363,7 @@ typedef struct OBJ_AFFINE
 
 
 // --------------------------------------------------------------------
-// DEFINES 
+// DEFINES
 // --------------------------------------------------------------------
 
 

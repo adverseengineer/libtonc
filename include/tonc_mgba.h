@@ -3,12 +3,17 @@
 //
 //! \file tonc_mgba.h
 //! \author Nick Sells
-//! \date 20210221
+//! \date 20210401
+//
 
-#ifndef TONC_MGBA_H
-#define TONC_MGBA_H
+#ifndef TONC_MGBA
+#define TONC_MGBA
 
 #include "tonc_types.h"
+
+// --------------------------------------------------------------------
+// MACROS 
+// --------------------------------------------------------------------
 
 #define LOG_FATAL               (u32) 0x100
 #define LOG_ERR                 (u32) 0x101
@@ -19,7 +24,13 @@
 #define REG_LOG_LEVEL           *(vu16*) 0x4FFF700
 #define REG_LOG_ENABLE          *(vu16*) 0x4FFF780
 
+// --------------------------------------------------------------------
+// PROTOTYPES 
+// --------------------------------------------------------------------
+
 void mgba_log(const u32 level, const char* str);
 void mgba_printf(const u32 level, const char* str, ...);
 
-#endif
+#endif // TONC_MGBA
+
+// EOF

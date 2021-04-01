@@ -74,14 +74,14 @@
 #ifndef MAX
 
 //! Get the maximum of \a a and \a b
-#define MAX(a, b)  ( ((a) > (b)) ? (a) : (b) ) 
+#define MAX(a, b)  ( ((a) > (b)) ? (a) : (b) )
 
 //! Get the minimum of \a a and \a b
 #define MIN(a, b)  ( ((a) < (b)) ? (a) : (b) )
 #endif	// MAX
 
 #ifndef SWAP
-//! In-place swap. 
+//! In-place swap.
 #define SWAP2(a, b)	do { a=(a)-(b); b=(a)+(b); a=(b)-(a); } while(0)
 
 #define SWAP	SWAP2
@@ -143,7 +143,7 @@ INLINE int wrap(int x, int min, int max);
 
 
 // --------------------------------------------------------------------
-//   FIXED POINT 
+//   FIXED POINT
 // --------------------------------------------------------------------
 
 
@@ -182,13 +182,13 @@ INLINE int wrap(int x, int min, int max);
 *	\note	Rules for safe reciprocal division, using 
 *	  n = 2<sup>fp</sup> and m = (n+a-1)/a (i.e., rounding up)
 *	  \li	Maximum safe numerator \a x:	x < n/(m*a-n)
-*	  \li	Minimum n for known \a x:		n > x*(a-1)	
+*	  \li	Minimum n for known \a x:		n > x*(a-1)
 */
 #define FX_RECIMUL(x, a, fp)	( ((x)*((1<<(fp))+(a)-1)/(a))>>(fp) )
 
 INLINE FIXED int2fx(int d);
 INLINE FIXED float2fx(float f);
-INLINE u32 fx2uint(FIXED fx);	
+INLINE u32 fx2uint(FIXED fx);
 INLINE u32 fx2ufrac(FIXED fx);
 INLINE int fx2int(FIXED fx);
 INLINE float fx2float(FIXED fx);
@@ -258,10 +258,10 @@ int pt_in_rect(const POINT *pt, const struct RECT *rc);
 /*!	\{	*/
 
 //! Rectangle struct
-typedef struct RECT    
+typedef struct RECT
 {
 	int left, top;
-	int right, bottom; 
+	int right, bottom;
 } RECT, RECT32;
 
 INLINE RECT *rc_set(RECT *rc, int l, int t, int r, int b);
@@ -273,6 +273,8 @@ INLINE RECT *rc_set_size(RECT *rc, int w, int h);
 INLINE RECT *rc_move(RECT *rc, int dx, int dy);
 INLINE RECT *rc_inflate(RECT *rc, int dw, int dh);
 INLINE RECT *rc_inflate2(RECT *rc, const RECT *dr);
+INLINE int rc_contains(RECT *rc1, RECT *rc2);
+
 
 RECT *rc_normalize(RECT *rc);
 
@@ -368,7 +370,7 @@ INLINE FIXED float2fx(float f)
 
 
 //! Convert a FIXED point value to an unsigned integer (orly?).
-INLINE u32 fx2uint(FIXED fx)	
+INLINE u32 fx2uint(FIXED fx)
 {	return fx>>FIX_SHIFT;	}
 
 //! Get the unsigned fractional part of a fixed point value (orly?).
@@ -457,7 +459,7 @@ INLINE int lu_lerp16(const s16 lut[], uint x, const uint shift)
 	int xa, ya, yb;
 	xa=x>>shift;
 	ya= lut[xa]; yb= lut[xa+1];
-	return ya + ( (yb-ya)*(x-(xa<<shift))>>shift );	
+	return ya + ( (yb-ya)*(x-(xa<<shift))>>shift );
 }
 
 
@@ -473,7 +475,7 @@ INLINE POINT *pt_set(POINT *pd, int x, int y)
 //! Point addition: \a pd = \a pa + \a pb
 INLINE POINT *pt_add(POINT *pd, const POINT *pa, const POINT *pb)
 {
-	pd->x= pa->x + pb->x;	
+	pd->x= pa->x + pb->x;
 	pd->y= pa->x + pb->y;
 	return pd;
 }
@@ -481,41 +483,41 @@ INLINE POINT *pt_add(POINT *pd, const POINT *pa, const POINT *pb)
 //! Point subtraction: \a pd = \a pa - \a pb
 INLINE POINT *pt_sub(POINT *pd, const POINT *pa, const POINT *pb)
 {
-	pd->x= pa->x - pb->x;	
+	pd->x= pa->x - pb->x;
 	pd->y= pa->x - pb->y;
 	return pd;
 }
 
-//! Point scale: \a pd = \a c * \a pa 
+//! Point scale: \a pd = \a c * \a pa
 INLINE POINT *pt_scale(POINT *pd, const POINT *pa, int c)
-{	
-	pd->x= pa->x*c;	
-	pd->y= pa->y*c;	
+{
+	pd->x= pa->x*c;
+	pd->y= pa->y*c;
 	return pd;
 }
 
 //! Point  increment: \a pd += \a pb
 INLINE POINT *pt_add_eq(POINT *pd, const POINT *pb)
-{	
-	pd->x += pb->y;	
-	pd->y += pb->y;	
-	return pd;	
+{
+	pd->x += pb->y;
+	pd->y += pb->y;
+	return pd;
 }
 
 //! Point decrement: \a pd -= \a pb
 INLINE POINT *pt_sub_eq(POINT *pd, const POINT *pb)
-{	
-	pd->x -= pb->y;	
-	pd->y -= pb->y;	
-	return pd;	
+{
+	pd->x -= pb->y;
+	pd->y -= pb->y;
+	return pd;
 }
 
 //! Point scale: \a pd *= \a c
 INLINE POINT *pt_scale_eq(POINT *pd, int c)
-{	
-	pd->x *= c;		
-	pd->y *= c;		
-	return pd;	
+{
+	pd->x *= c;
+	pd->y *= c;
+	return pd;
 }
 
 //! Point 'cross'-product: \a pa \htmlonly &times; \endhtmlonly \a pb
@@ -575,7 +577,7 @@ INLINE RECT *rc_set_pos(RECT *rc, int x, int y)
 	return rc;
 }
 
-//! Reside rectangle.
+//! Resize rectangle.
 INLINE RECT *rc_set_size(RECT *rc, int w, int h)
 {
 	rc->right= rc->left+w;		rc->bottom= rc->top+h;
@@ -592,20 +594,28 @@ INLINE RECT *rc_move(RECT *rc, int dx, int dy)
 
 //! Increase size by \a dw horizontally and \a dh vertically.
 INLINE RECT *rc_inflate(RECT *rc, int dw, int dh)
-{	
-	rc->left -= dw;		rc->top -= dh;	
+{
+	rc->left -= dw;		rc->top -= dh;
 	rc->right += dw;	rc->bottom += dh;
 	return rc;
 }
 
 //! Increase sizes on all sides by values of rectangle \a dr.
 INLINE RECT *rc_inflate2(RECT *rc, const RECT *dr)
-{	
-	rc->left += dr->left;	rc->top += dr->top;	
+{
+	rc->left += dr->left;	rc->top += dr->top;
 	rc->right += dr->right;	rc->bottom += dr->bottom;
 	return rc;
 }
 
+//! Check if rectangle \a rc1 is inside rectangle \a rc2
+INLINE int rc_contains(RECT *rc1, RECT *rc2)
+{
+	return (rc1->left >= rc2->left)
+		 & (rc1->right <= rc2->right)
+		 & (rc1->top >= rc2->top)
+		 & (rc1->bottom <= rc2->bottom);		
+}
 
 // --- Vector ---------------------------------------------------------
 
@@ -654,7 +664,7 @@ INLINE VECTOR *vec_scale(VECTOR *vd, const VECTOR *va, FIXED c)
 
 //! Dot-product: d = \b a ·\b b
 INLINE FIXED vec_dot(const VECTOR *va, const VECTOR *vb)
-{	
+{
 	FIXED dot;
 	dot  = fxmul(va->x, vb->x);
 	dot += fxmul(va->y, vb->y);
