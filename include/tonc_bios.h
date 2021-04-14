@@ -10,7 +10,7 @@
 // Pretty much copied verbatim from Pern and dkARM's libgba
 // (which in turn is copied from CowBite Spec (which got its info from 
 //  GBATek))
-// 
+//
 //
 // === NOTES ===
 // * Make SURE your data is aligned to 32bit boundaries. Defining data
@@ -37,7 +37,7 @@
 /*!
 	\addtogroup grpBios
 	\brief	Interfaces and constants for the GBA BIOS routines. 
-	
+
 	For details, see 
 	<a href="http://www.coranac.com/tonc/text/keys.htm">tonc:keys</a> 
 	and especially 
@@ -67,19 +67,19 @@
 //\{
 #define RESET_EWRAM		0x0001	//!< Clear 256K on-board WRAM
 #define RESET_IWRAM		0x0002	//!< Clear 32K in-chip WRAM
-#define RESET_PALETTE	0x0004	//!< Clear Palette
+#define RESET_PALETTE		0x0004	//!< Clear Palette
 #define RESET_VRAM		0x0008	//!< Clear VRAM
 #define RESET_OAM		0x0010	//!< Clear OAM. does NOT disable OBJs!
-#define RESET_REG_SIO	0x0020	//!< Switches to general purpose mode
-#define RESET_REG_SOUND	0x0040	//!< Reset Sound registers
+#define RESET_REG_SIO		0x0020	//!< Switches to general purpose mode
+#define RESET_REG_SOUND		0x0040	//!< Reset Sound registers
 #define RESET_REG		0x0080	//!< All other registers
 
 //#define RESET_REG_VIDEO	0x0100	//!< video regs, 00h-60h (non standard!)
-//#define RESET_REG_DMA	0x0200	//!< DMA regs, B0h-100h (non standard!)
-//#define	RESET_REG_TIMER	0x0400	//!< Timer regs (100h-110h) (non standard!)
+//#define RESET_REG_DMA		0x0200	//!< DMA regs, B0h-100h (non standard!)
+//#define RESET_REG_TIMER	0x0400	//!< Timer regs (100h-110h) (non standard!)
 
-#define RESET_MEM_MASK	0x001F
-#define RESET_REG_MASK	0x00E0
+#define RESET_MEM_MASK		0x001F
+#define RESET_REG_MASK		0x00E0
 
 #define RESET_GFX		0x001C	//!< Clear all gfx-related memory
 
@@ -87,43 +87,43 @@
 
 //! \name Cpu(Fast)Set flags
 //\{
-#define CS_CPY      0			//!< Copy mode
-#define CS_FILL    (1<<24)		//!< Fill mode
-#define CS_CPY16    0			//!< Copy in halfwords
-#define CS_CPY32   (1<<26)		//!< Copy words
-#define CS_FILL32  (5<<24)		//!< Fill words
+#define CS_CPY      		0	//!< Copy mode
+#define CS_FILL    		(1<<24)	//!< Fill mode
+#define CS_CPY16   		 0	//!< Copy in halfwords
+#define CS_CPY32   		(1<<26)	//!< Copy words
+#define CS_FILL32  		(5<<24)	//!< Fill words
 
-#define CFS_CPY     CS_CPY		//!< Copy words
-#define CFS_FILL    CS_FILL		//!< Fill words
+#define CFS_CPY     		CS_CPY	//!< Copy words
+#define CFS_FILL    		CS_FILL	//!< Fill words
 //\}
 
 //! \name ObjAffineSet P-element offsets
 //\{
-#define BG_AFF_OFS		2		//!< BgAffineDest offsets
-#define OBJ_AFF_OFS		8		//!< ObjAffineDest offsets
+#define BG_AFF_OFS		2	//!< BgAffineDest offsets
+#define OBJ_AFF_OFS		8	//!< ObjAffineDest offsets
 //\}
 
 //! \name Decompression routines
 #define BUP_ALL_OFS		(1<<31)
 
 #define LZ_TYPE			0x00000010
-#define LZ_SIZE_MASK	0xFFFFFF00
-#define LZ_SIZE_SHIFT	  8
+#define LZ_SIZE_MASK		0xFFFFFF00
+#define LZ_SIZE_SHIFT	 	8
 
-#define HUF_BPP_MASK	0x0000000F
+#define HUF_BPP_MASK		0x0000000F
 #define HUF_TYPE		0x00000020
-#define HUF_SIZE_MASK	0xFFFFFF00
-#define HUF_SIZE_SHIFT	  8
+#define HUF_SIZE_MASK		0xFFFFFF00
+#define HUF_SIZE_SHIFT	  	8
 
 #define RL_TYPE			0x00000030
-#define RL_SIZE_MASK	0xFFFFFF00
-#define RL_SIZE_SHIFT	  8
+#define RL_SIZE_MASK		0xFFFFFF00
+#define RL_SIZE_SHIFT	  	8
 
 #define DIF_8			0x00000001
 #define DIF_16			0x00000002
 #define DIF_TYPE		0x00000080
-#define DIF_SIZE_MASK	0xFFFFFF00
-#define DIF_SIZE_SHIFT	  8
+#define DIF_SIZE_MASK		0xFFFFFF00
+#define DIF_SIZE_SHIFT	  	8
 //\}
 
 //! \name Multiboot modes
@@ -160,7 +160,7 @@
 
 // --- affine function 0x0E and 0x0F ---
 
-/* 
+/*
 *  Notational convention: postfix underscore is 2d vector
 *
 *	p_ = (px, py)		= texture coordinates
@@ -177,7 +177,7 @@
 *  (texture point p0_ and screen point q0_), do
 *
 * (2)	p_ - p0_ = P*(q_-q0_)
-*  
+*
 *  Subtracting eq 2 from eq1 we immediately find:
 *
 * (3)	_d = p0_ - P*q0_
@@ -201,7 +201,7 @@
 //! BitUpPack ( for swi 10h)
 typedef struct BUP
 {
-    u16 src_len;	//!< source length (bytes)	
+    u16 src_len;	//!< source length (bytes)
     u8 src_bpp;		//!< source bitdepth (1,2,4,8)
     u8 dst_bpp;		//!< destination bitdepth (1,2,4,8,16,32)
     u32 dst_ofs;	//!< {0-30}: added offset {31}: zero-data offset flag
@@ -273,10 +273,10 @@ s16 ArcTan2(s16 x, s16 y);
 
 //! \name Memory copiers/fillers
 //\{
-// Technically, these are misnomers. The convention is that 
+// Technically, these are misnomers. The convention is that
 // xxxset is used for fills (comp memset, strset). Or perhaps
-// the C library functions are misnomers, since set can be applied 
-// to both copies and fills. 
+// the C library functions are misnomers, since set can be applied
+// to both copies and fills.
 void CpuSet(const void *src, void *dst, u32 mode);
 void CpuFastSet(const void *src, void *dst, u32 mode);
 //\}
@@ -293,7 +293,7 @@ void ObjAffineSet(const ObjAffineSource *src, void *dst, s32 num, s32 offset);
 void BgAffineSet(const BgAffineSource *src, BgAffineDest *dst, s32 num);
 //\}
 
-//! \name Decompression (see GBATek for format details) 
+//! \name Decompression (see GBATek for format details)
 //\{
 void BitUnPack(const void *src, void *dst, const BUP *bup);
 void LZ77UnCompWram(const void *src, void *dst);
@@ -303,7 +303,7 @@ void RLUnCompWram(const void *src, void *dst);
 void RLUnCompVram(const void *src, void *dst);
 void Diff8bitUnFilterWram(const void *src, void *dst);
 void Diff8bitUnFilterVram(const void *src, void *dst);
-void Diff16bitUnFilter(const void *src, void *dst);	
+void Diff16bitUnFilter(const void *src, void *dst);
 //\}
 
 //! \name Sound Functions
@@ -356,13 +356,13 @@ void CpuFastFill(u32 wd, void *dst, u32 count);
 
 // --- Reset ---
 
-void SoftReset(void);					// swi 00h
-void RegisterRamReset(u32 flags);		// swi 01h
+void SoftReset(void);			// swi 00h
+void RegisterRamReset(u32 flags);	// swi 01h
 
 // --- Halt ---
 
-void Halt(void);						// swi 02h
-void Stop(void);						// swi 03h
+void Halt(void);			// swi 02h
+void Stop(void);			// swi 03h
 void IntrWait(u32 flagClear, u32 irq);	// swi 04h
 
 //! Wait for the next VBlank (swi 05h).
@@ -481,28 +481,28 @@ void ObjAffineSet(const ObjAffineSource *src, void *dst, s32 num, s32 offset);
 void BgAffineSet(const BgAffineSource *src, BgAffineDest *dst, s32 num);
 
 
-// --- Decompression (see GBATek for format details) --- 
+// --- Decompression (see GBATek for format details) ---
 void BitUnPack(const void *src, void *dst, const BUP *bup);	// swi 10h +
 void LZ77UnCompWram(const void *src, void *dst);		// swi 11h +
 void LZ77UnCompVram(const void *src, void *dst);		// swi 12h +
 void HuffUnComp(const void *src, void *dst);			// swi 13h +
 void RLUnCompWram(const void *src, void *dst);			// swi 14h
 void RLUnCompVram(const void *src, void *dst);			// swi 15h +
-void Diff8bitUnFilterWram(const void *src, void *dst);	// swi 16h
-void Diff8bitUnFilterVram(const void *src, void *dst);	// swi 17h
+void Diff8bitUnFilterWram(const void *src, void *dst);		// swi 16h
+void Diff8bitUnFilterVram(const void *src, void *dst);		// swi 17h
 void Diff16bitUnFilter(const void *src, void *dst);		// swi 18h
 
 
 
 
 // --- Sound (I have even less of a clue what these do than for the others ---
-void SoundBias(u32 bias);					// swi 19h
+void SoundBias(u32 bias);				// swi 19h
 void SoundDriverInit(void *src);			// swi 1Ah
 void SoundDriverMode(u32 mode);				// swi 1Bh
-void SoundDriverMain(void);					// swi 1Ch
+void SoundDriverMain(void);				// swi 1Ch
 void SoundDriverVSync(void);				// swi 1Dh
 void SoundChannelClear(void);				// swi 1Eh
-u32 MidiKey2Freq(void *wa, u8 mk, u8 fp);	// swi 1Fh
+u32 MidiKey2Freq(void *wa, u8 mk, u8 fp);		// swi 1Fh
 void SoundDriverVSyncOff(void);				// swi 28h
 void SoundDriverVSyncOn(void);				// swi 29h
 

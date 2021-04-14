@@ -301,7 +301,7 @@ void bg_rotscale_ex(BG_AFFINE *bgaff, const AFF_SRC_EX *asx);
 INLINE void m3_fill(COLOR clr);
 INLINE void m3_plot(int x, int y, COLOR clr);
 
-INLINE void m3_hline(int x1, int y, int x2, COLOR clr);
+INLINE void m3_hline(int y, int x1, int x2, COLOR clr);
 INLINE void m3_vline(int x, int y1, int y2, COLOR clr);
 INLINE void m3_line(int x1, int y1, int x2, int y2, COLOR clr);
 
@@ -391,7 +391,7 @@ INLINE void se_fill(SCR_ENTRY *sbb, SCR_ENTRY se)
 
 //! Plot a screen entry at (\a x,\a y) of screenblock \a sbb.
 INLINE void se_plot(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se)
-{	sbb[y*32+x]= se;										}
+{	sbb[y*32+x+((x>=32)*992)+((y>=32)*1024)]= se;			}
 
 //! Fill a rectangle on \a sbb with \a se.
 INLINE void se_rect(SCR_ENTRY *sbb, int left, int top, int right, int bottom, 
@@ -463,7 +463,7 @@ INLINE void m3_plot(int x, int y, COLOR clr)
 
 
 //! Draw a \a clr colored horizontal line in mode 3.
-INLINE void m3_hline(int x1, int y, int x2, COLOR clr)
+INLINE void m3_hline(int y, int x1, int x2, COLOR clr)
 {	bmp16_hline(x1, y, x2, clr, vid_mem, M3_WIDTH*2);				}
 
 
