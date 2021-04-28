@@ -121,7 +121,7 @@ INLINE const u8 *obj_get_size(const OBJ_ATTR *obj)
 //! Get object's width
 INLINE int obj_get_width(const OBJ_ATTR *obj)
 {	return obj_get_size(obj)[0];						}
-	
+
 //! Gets object's height
 INLINE int obj_get_height(const OBJ_ATTR *obj)
 {	return obj_get_size(obj)[1];						}
