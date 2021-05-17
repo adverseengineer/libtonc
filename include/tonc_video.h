@@ -253,18 +253,6 @@ void bmp16_frame(int left, int top, int right, int bottom, u32 clr,
 #define BG_IS_AFFINE(n) ( (__BG_TYPES>>(4*(REG_DISPCNT&7)+(n)   ))&1 )
 #define BG_IS_AVAIL(n)  ( (__BG_TYPES>>(4*(REG_DISPCNT&7)+(n)+16))&1 )
 
-
-INLINE void se_fill(SCR_ENTRY *sbb, SCR_ENTRY se);
-INLINE void se_plot(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se);
-INLINE void se_rect(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se);
-INLINE void se_frame(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se);
-
-void se_window(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
-
-void se_hline(SCR_ENTRY *sbb, int x0, int x1, int y, SCR_ENTRY se);
-void se_vline(SCR_ENTRY *sbb, int x, int y0, int y1, SCR_ENTRY se);
-
-
 // --- Prototypes -----------------------------------------------------
 
 // --- affine ---
@@ -382,30 +370,7 @@ INLINE COLOR RGB8(u8 red, u8 green, u8 blue)
 {	return  (red>>3) + ((green>>3)<<5) + ((blue>>3)<<10);	}
 
 
-// --- Backgrounds ----------------------------------------------------
-
-
-//! Fill screenblock \a sbb with \a se
-INLINE void se_fill(SCR_ENTRY *sbb, SCR_ENTRY se)
-{	memset32(sbb, dup16(se), SBB_SIZE/4);					}
-
-//! Plot a screen entry at (\a x,\a y) of screenblock \a sbb.
-INLINE void se_plot(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se)
-{	sbb[y*32+x+((x>=32)*992)+((y>=32)*1024)]= se;			}
-
-//! Fill a rectangle on \a sbb with \a se.
-INLINE void se_rect(SCR_ENTRY *sbb, int left, int top, int right, int bottom, 
-	SCR_ENTRY se)
-{	bmp16_rect(left, top, right, bottom, se, sbb, 32*2);				}
-
-//! Create a border on \a sbb with \a se.
-INLINE void se_frame(SCR_ENTRY *sbb, int left, int top, int right, int bottom, 
-	SCR_ENTRY se)
-{	bmp16_frame(left, top, right, bottom, se, sbb, 32*2);				}
-
-
-// --- Affine ---
-
+// --- Affine Backgrounds ----------------------------------------------------
 
 //! Copy bg affine aprameters
 INLINE void bg_aff_copy(BG_AFFINE *dst, const BG_AFFINE *src)
