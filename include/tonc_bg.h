@@ -93,8 +93,8 @@ INLINE void bg_window(SCR_ENTRY *sbb, int left, int top, int right, int bottom, 
 
 //! Fill screenblock \a sbb with the meta-tile starting at \a s0
 INLINE void bg_fill_m(SCR_ENTRY *sbb, SCR_ENTRY se0) {
-	for(int iy = 0; iy < 32; iy++)
-		bg_hline_m(sbb, 0, 31, iy, se0);
+	for(int iy = 0; iy < 16; iy++)
+		bg_hline_m(sbb, 0, 15, iy, se0);
 }
 
 //! Plot the meta-tile starting at \a se0 at (\a x,\a y) of screenblock \a sbb

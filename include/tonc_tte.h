@@ -346,6 +346,10 @@ extern const TFont verdana10Font;	//!< Verdana 10 ' '-'ÿ'. VWF 16x14\@1.
 		
 extern const TFont verdana9_b4Font;	//!< Verdana 9 ' '-'ÿ'. VWF  8x12\@4.
 
+//Nick Sells, 5-18-21
+//additional fonts
+extern const TFont mssans9Font;
+extern const TFont tahoma9Font;
 
 // --- Extra font data ---
 
@@ -365,6 +369,15 @@ extern const unsigned char verdana10Widths[224];
 
 extern const unsigned int verdana9_b4Glyphs[3584];
 extern const unsigned char verdana9_b4Widths[224];
+
+
+//Nick Sells, 5-18-21
+//additional font data
+extern const unsigned int mssans9Glyphs[192];
+extern const unsigned char mssans9Widths[224];
+
+extern const unsigned int tahoma9Glyphs[192];
+extern const unsigned char tahoma9Widths[224];
 
 //\}
 
