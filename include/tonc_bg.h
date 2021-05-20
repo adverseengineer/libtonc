@@ -13,68 +13,68 @@
 #include "tonc_video.h"
 
 // --- single-tile routines ---
-INLINE void bg_fill(SCR_ENTRY *sbb, SCR_ENTRY se);
-INLINE void bg_plot(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se);
-INLINE void bg_hline(SCR_ENTRY *sbb, int x0, int x1, int y, SCR_ENTRY se);
-INLINE void bg_vline(SCR_ENTRY *sbb, int x, int y0, int y1, SCR_ENTRY se);
+INLINE void bg_fill(int sbb, SCR_ENTRY se);
+INLINE void bg_plot(int sbb, int x, int y, SCR_ENTRY se);
+INLINE void bg_hline(int sbb, int x0, int x1, int y, SCR_ENTRY se);
+INLINE void bg_vline(int sbb, int x, int y0, int y1, SCR_ENTRY se);
 
-INLINE void bg_rect(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se);
-INLINE void bg_frame(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se);
-INLINE void bg_window(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
+INLINE void bg_rect(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se);
+INLINE void bg_frame(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se);
+INLINE void bg_window(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
 
 // --- meta-tile variants ---
-INLINE void bg_fill_m(SCR_ENTRY *sbb, SCR_ENTRY se0);
-INLINE void bg_plot_m(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se0);
-INLINE void bg_hline_m(SCR_ENTRY *sbb, int x0, int x1, int y, SCR_ENTRY se0);
-INLINE void bg_vline_m(SCR_ENTRY *sbb, int x, int y0, int y1, SCR_ENTRY se0);
+INLINE void bg_fill_m(int sbb, SCR_ENTRY se0);
+INLINE void bg_plot_m(int sbb, int x, int y, SCR_ENTRY se0);
+INLINE void bg_hline_m(int sbb, int x0, int x1, int y, SCR_ENTRY se0);
+INLINE void bg_vline_m(int sbb, int x, int y0, int y1, SCR_ENTRY se0);
 
-INLINE void bg_rect_m(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
-INLINE void bg_frame_m(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
-INLINE void bg_window_m(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
+INLINE void bg_rect_m(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
+INLINE void bg_frame_m(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
+INLINE void bg_window_m(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0);
 
 
 
 //! Fill screenblock \a sbb with \a se
-INLINE void bg_fill(SCR_ENTRY *sbb, SCR_ENTRY se)
+INLINE void bg_fill(int sbb, SCR_ENTRY se)
 {
-	memset32(sbb, dup16(se), SBB_SIZE / 4);
+	memset32(se_mem[sbb], dup16(se), SBB_SIZE / 4);
 }
 
 //! Plot a screen entry at (\a x,\a y) of screenblock \a sbb.
 //! NOTE: treats four 32x32 screenblocks as a single 64x64 one
-INLINE void bg_plot(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se)
+INLINE void bg_plot(int sbb, int x, int y, SCR_ENTRY se)
 {
-	sbb[y*32+x+((x>=32)*992)+((y>=32)*1024)] = se;
+	se_mem[sbb][y*32+x+((x>=32)*992)+((y>=32)*1024)] = se;
 }
 
 //! Plot a horizontal line of tiles on screenblock \a sbb
-INLINE void bg_hline(SCR_ENTRY *sbb, int x0, int x1, int y, SCR_ENTRY se)
+INLINE void bg_hline(int sbb, int x0, int x1, int y, SCR_ENTRY se)
 {
 	for(int ix = x0; ix < x1; ix++)
 		bg_plot(sbb, ix, y, se);
 }
 
 //! Plot a vertical line of tiles on screenblock \a sbb
-INLINE void bg_vline(SCR_ENTRY *sbb, int x, int y0, int y1, SCR_ENTRY se)
+INLINE void bg_vline(int sbb, int x, int y0, int y1, SCR_ENTRY se)
 {
 	for(int iy = y0; iy < y1; iy++)
 		bg_plot(sbb, x, iy, se);
 }
 
 //! Fill a rectangle on \a sbb with \a se.
-INLINE void bg_rect(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se)
+INLINE void bg_rect(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se)
 {
-	bmp16_rect(left, top, right, bottom, se, sbb, 32*2);
+	bmp16_rect(left, top, right, bottom, se, se_mem[sbb], 32*2);
 }
 
 //! Create a border on \a sbb with \a se.
-INLINE void bg_frame(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se)
+INLINE void bg_frame(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se)
 {
-	bmp16_frame(left, top, right, bottom, se, sbb, 32*2);
+	bmp16_frame(left, top, right, bottom, se, se_mem[sbb], 32*2);
 }
 
 //! Create a framed rectangle on \a sbb with the nine tiles starting at \a se0
-INLINE void bg_window(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
+INLINE void bg_window(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
 {
 	//corners
 	bg_plot(sbb, left, top, se0);
@@ -92,13 +92,13 @@ INLINE void bg_window(SCR_ENTRY *sbb, int left, int top, int right, int bottom, 
 }
 
 //! Fill screenblock \a sbb with the meta-tile starting at \a s0
-INLINE void bg_fill_m(SCR_ENTRY *sbb, SCR_ENTRY se0) {
+INLINE void bg_fill_m(int sbb, SCR_ENTRY se0) {
 	for(int iy = 0; iy < 16; iy++)
 		bg_hline_m(sbb, 0, 15, iy, se0);
 }
 
 //! Plot the meta-tile starting at \a se0 at (\a x,\a y) of screenblock \a sbb
-INLINE void bg_plot_m(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se0)
+INLINE void bg_plot_m(int sbb, int x, int y, SCR_ENTRY se0)
 {
 	bg_plot(sbb, x * 2, y * 2, se0);
 	bg_plot(sbb, x * 2 + 1, y * 2, se0 + 1);
@@ -107,28 +107,28 @@ INLINE void bg_plot_m(SCR_ENTRY *sbb, int x, int y, SCR_ENTRY se0)
 }
 
 //! Plot a horizontal line on screenblock \a sbb with the meta-tile starting at \a se0
-INLINE void bg_hline_m(SCR_ENTRY *sbb, int x0, int x1, int y, SCR_ENTRY se0)
+INLINE void bg_hline_m(int sbb, int x0, int x1, int y, SCR_ENTRY se0)
 {
 	for(int ix = x0; ix <= x1; ix++)
 		bg_plot_m(sbb, ix, y, se0);
 }
 
 //! Plot a vertical line on screenblock \a sbb with the meta-tile starting at \a se0
-INLINE void bg_vline_m(SCR_ENTRY *sbb, int x, int y0, int y1, SCR_ENTRY se0)
+INLINE void bg_vline_m(int sbb, int x, int y0, int y1, SCR_ENTRY se0)
 {
 	for(int iy = y0; iy <= y1; iy++)
 		bg_plot_m(sbb, x, iy, se0);
 }
 
 //! Fill a rectangle on \a sbb with the meta-tile starting at \a se0
-INLINE void bg_rect_m(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
+INLINE void bg_rect_m(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
 {
 	for(int iy = top; iy <= bottom; iy++)
 		bg_hline_m(sbb, left, right, iy, se0);
 }
 
 //! Create a border on \a sbb with the meta-tile starting at \a se0
-INLINE void bg_frame_m(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
+INLINE void bg_frame_m(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
 {
 	bg_hline_m(sbb, left, right, top, se0);
 	bg_hline_m(sbb, left, right, bottom, se0);
@@ -137,7 +137,7 @@ INLINE void bg_frame_m(SCR_ENTRY *sbb, int left, int top, int right, int bottom,
 }
 
 //! Create a framed rectangle on \a sbb with the nine meta-tiles starting at \a se0
-INLINE void bg_window_m(SCR_ENTRY *sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
+INLINE void bg_window_m(int sbb, int left, int top, int right, int bottom, SCR_ENTRY se0)
 {
 	//corners
 	bg_plot_m(sbb, left, top, se0);
