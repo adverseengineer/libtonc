@@ -157,6 +157,9 @@
 #define BG_SIZE_SHIFT		14
 #define BG_SIZE(n)		((n)<<BG_SIZE_SHIFT)
 
+//Nick Sells, 5-20-21
+//converts a BG number to the corresponding DISPCNT flag
+#define BG(x)           (1 << (8 + (x)))
 
 #define BG_BUILD(cbb, sbb, size, bpp, prio, mos, wrap)		\
 (															\

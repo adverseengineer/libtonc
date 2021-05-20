@@ -13,6 +13,6 @@
 #include "tonc_video.h"
 
 //NOTE: i moved all tile-plotting routines to tonc_bg.h, but I'm leaving this file intact in case I ever add to it
-//	-Nick Sells, 05-12-21
+//Nick Sells, 5-12-21
 
 // EOF
