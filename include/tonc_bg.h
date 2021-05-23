@@ -132,8 +132,8 @@ INLINE void bg_frame_m(int sbb, int left, int top, int right, int bottom, SCR_EN
 {
 	bg_hline_m(sbb, left, right, top, se0);
 	bg_hline_m(sbb, left, right, bottom, se0);
-	bg_vline_m(sbb, left, top + 1, bottom - 1, se0 + 1);
-	bg_vline_m(sbb, right, top + 1, bottom - 1, se0 + 2);
+	bg_vline_m(sbb, left, top + 1, bottom - 1, se0);
+	bg_vline_m(sbb, right, top + 1, bottom - 1, se0);
 }
 
 //! Create a framed rectangle on \a sbb with the nine meta-tiles starting at \a se0

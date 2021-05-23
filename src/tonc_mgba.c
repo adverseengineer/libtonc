@@ -13,12 +13,12 @@
 #include "tonc_mgba.h"
 
 // --------------------------------------------------------------------
-// FUNCTIONS 
+// FUNCTIONS
 // --------------------------------------------------------------------
 
 //! Outputs \a str to mGBA's logger with \a level priority
 //! \note adapted from https://github.com/GValiente/butano/blob/master/butano/hw/src/bn_hw_log.cpp
-void mgba_log(const u32 level, const char* str) {
+void mgba_log(u32 level, const char* str) {
     REG_LOG_ENABLE = 0xC0DE;
     u32 chars_left = strlen(str);
 
@@ -34,7 +34,7 @@ void mgba_log(const u32 level, const char* str) {
 }
 
 //! Outputs \a fmt formatted with varargs to mGBA's logger with \a level priority
-void mgba_printf(const u32 level, const char* fmt, ...) {
+void mgba_printf(u32 level, const char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 
