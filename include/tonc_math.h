@@ -264,6 +264,12 @@ typedef struct RECT
 	int right, bottom;
 } RECT, RECT32;
 
+typedef struct RECT16
+{
+	short left, top;
+	short right, bottom;
+} RECT16;
+
 INLINE RECT *rc_set(RECT *rc, int l, int t, int r, int b);
 INLINE RECT *rc_set2(RECT *rc, int x, int y, int w, int h);
 INLINE int rc_width(const RECT *rc);
